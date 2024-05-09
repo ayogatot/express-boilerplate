@@ -24,6 +24,10 @@ pageValidator.add = Joi.object().keys({
   sequence: Joi.number().required().messages({
     "any.required": "sequence is required",
   }),
+  section: Joi.string().optional().allow(null).messages({
+    "string.empty": "section cannot be an empty",
+    "any.required": "section is required",
+  }),
 });
 
 export default pageValidator;
