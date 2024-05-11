@@ -1,9 +1,11 @@
-import { logger } from "express-glass";
-import express from "express";
-import globalErrorHandler from "../middlewares/errorHandler.middleware";
-import routes from "../routes";
-import compression from "compression";
 import path from 'path'
+import cors from 'cors'
+import express from "express";
+import compression from "compression";
+import { logger } from "express-glass";
+
+import routes from "../routes";
+import globalErrorHandler from "../middlewares/errorHandler.middleware";
 
 let server;
 
@@ -13,6 +15,7 @@ const expressService = {
       server = express();
       server.use(compression())
       server.use(express.json());
+      server.use(cors({ origin: "*" }));
       server.use(express.urlencoded({ extended: true }));
       server.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
