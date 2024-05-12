@@ -87,6 +87,13 @@ module.exports = {
         created_at: 1714487120838,
         updated_at: null,
       },
+      {
+        image_id: "02cf2c06-fa78-4f12-aeca-a4586313d687",
+        page_id: "02cf2c06-fa78-4f12-aeca-a4586313d677",
+        filename: "dff07c70-d7f2-41c9-ad6b-b37c9fe4658b.png",
+        created_at: 1714487120838,
+        updated_at: null,
+      },
     ]);
   },
 
