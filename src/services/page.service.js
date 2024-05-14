@@ -43,6 +43,32 @@ pageService.add = async (page) => {
   }
 };
 
+pageService.update = async (page_id, page) => {
+  logger().info(`update page, body = ${objectToLogStr(page)}`);
+  const t = await connection.transaction();
+  try {
+    const existingPage = await Pages.findOne({
+      where: {
+        page_id,
+      },
+      transaction: t,
+    });
+    if (!existingPage) throw new NotFoundError("page not found");
+
+    page.updated_at = new Date().getTime();
+
+    await Pages.update(page, {
+      where: { page_id },
+      transaction: t,
+    });
+    t.commit();
+    return existingPage;
+  } catch (error) {
+    t.rollback();
+    throw new BadRequestError(error.message);
+  }
+};
+
 pageService.getAll = async (query) => {
   logger().info(`get all pages`);
   const pages = await Pages.findAll({

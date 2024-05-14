@@ -1,14 +1,11 @@
-import fs from "fs";
 import path from "path";
 import sharp from "sharp";
-import { v4 } from "uuid";
 import { logger } from "express-glass";
 import { objectToLogStr } from "../utils/ObjectToLog";
 
 import Pages from "../models/Pages";
 import Images from "../models/Images";
 import getImagesQuery from "../utils/query/image.query";
-import getPagesQuery from "../utils/query/page.query";
 import pagedData from "../utils/PagedData";
 import { NotFoundError } from "../utils/ApiError";
 
@@ -25,7 +22,6 @@ imageService.getAll = async (query) => {
       {
         model: Pages,
         as: "page_detail",
-        where: getPagesQuery(query),
         attributes: [ "page_id", "parent_page_id", "page", "title", "subtitle", "description", "sequence" ],
       },
     ],

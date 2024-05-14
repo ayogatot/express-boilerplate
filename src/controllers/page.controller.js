@@ -35,6 +35,24 @@ pageController.add = async (req, res, next) => {
   });
 };
 
+pageController.update = async (req, res, next) => {
+  try {
+    if(!req.params.page_id) throw new ValidationError("page_id is required");
+    logger().info(`update page, page_id = ${req.params.page_id}`);
+
+    const validationResult = pageValidator.update.validate(req.body);
+    if (validationResult.error) {
+      throw new ValidationError(validationResult.error.message);
+    }
+
+    const result = await pageService.update(req.params.page_id, validationResult.value);
+    responseUtil.success(res, result);
+  } catch (error) {
+    logger().error(`page update failed, error = ${error}`);
+    next(error)
+  }
+}
+
 pageController.getAll = async (req, res, next) => {
   try {
     logger().info(`page get all request`);
