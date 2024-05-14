@@ -27,6 +27,7 @@ const expressService = {
       server.use('/api/v1/careers', routes.careerRoutes);
       server.use('/api/v1/contacts', routes.contactRoutes);
       server.use('/api/v1/applicants', routes.applicantRoutes);
+      server.use('/api/v1/newsletters', routes.newsletterRoutes);
 
       server.use(globalErrorHandler);
 
