@@ -11,7 +11,7 @@ class Applicants extends Model {
         },
         career_id: {
           type: Sequelize.UUID,
-          allowNull: false,
+          allowNull: true,
         },
         email: {
           type: Sequelize.STRING(128),

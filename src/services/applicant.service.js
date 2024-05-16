@@ -23,7 +23,7 @@ applicantService.getAll = async (query) => {
   const start = query.pages ? query.pages * pageSize - pageSize : null;
   const { rows: applicants, count: totalItems } = await Applicants.findAndCountAll({
     include: [
-      { model: Careers, as: "career_detail", attributes: ["career_id", "title", "job_description", "is_active"] },
+      { model: Careers, as: "career_detail", attributes: ["career_id", "title", "job_description", "is_active"], required: false },
     ],
     limit: pageSize,
     offset: start,

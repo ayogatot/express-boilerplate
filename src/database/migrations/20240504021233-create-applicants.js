@@ -10,6 +10,7 @@ module.exports = {
       },
       career_id: {
         type: Sequelize.UUID,
+        allowNull: true,
         references: {
           model: 'careers',
           key: 'career_id'

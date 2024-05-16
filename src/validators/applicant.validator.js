@@ -19,7 +19,7 @@ const email = Joi.string()
   });
 
 applicantValidator.add = Joi.object().keys({
-  career_id: Joi.string().required().messages({
+  career_id: Joi.string().optional().allow(null).messages({
     "string.empty": "career_id cannot be an empty",
     "any.required": "career_id is required",
   }),
