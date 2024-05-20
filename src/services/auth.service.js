@@ -28,7 +28,7 @@ userService.login = async (body) => {
   if (user) {
     const isPasswordMatch = await user.checkPassword(body.password);
     if (isPasswordMatch) {
-      const token = JwtService.jwtSign(user.id);
+      const token = JwtService.jwtSign(user);
       return { user, token };
     }
 

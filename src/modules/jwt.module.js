@@ -1,19 +1,17 @@
 import { logger } from "express-glass";
 import jwt from "jsonwebtoken";
 import moment from "moment";
+import responseUtil from "../utils/Response";
 
 let jwtidCounter = 0;
 let blacklist = [];
 
 const JwtService = {
-  jwtSign: (_payload) => {
+  jwtSign: (body) => {
     try {
-      if (process.env.SERVER_JWT !== "true")
-        throw new Error("[JWT] Fastify JWT flag is not setted");
-
       logger().info("[JWT] Generating fastify JWT sign");
 
-      const payload = JSON.parse(JSON.stringify(_payload));
+      const payload = JSON.stringify(body);
 
       jwtidCounter = jwtidCounter + 1;
       return jwt.sign({ payload }, process.env.SERVER_JWT_SECRET, {
@@ -26,20 +24,18 @@ const JwtService = {
     }
   },
 
-  jwtGetToken: (request) => {
+  jwtGetToken: (req, res, next) => {
     try {
-      if (process.env.SERVER_JWT !== "true")
-        throw new Error("[JWT] JWT flag is not setted");
-      if (
-        !request.headers.authorization ||
-        request.headers.authorization.split(" ")[0] !== "Bearer"
-      )
-        throw new Error("[JWT] JWT token not provided");
-
-      return request.headers.authorization.split(" ")[1];
+      const auth = req.headers.authorization;
+      if (!auth) {
+        throw new Error("Not authorized, headers not provided");
+      }
+      const jwtToken = auth.split(" ")[1];
+      req.auth = jwt.verify(jwtToken, process.env.SERVER_JWT_SECRET);
+      next();
     } catch (error) {
       logger().error("[JWT] Error getting JWT token");
-      throw error;
+      responseUtil.fail(res, 401, error.message);
     }
   },
 
@@ -66,7 +62,7 @@ const JwtService = {
         }
       );
     } catch (error) {
-      logger().error("[JWT] Error getting JWT token");
+      logger().error("[JWT] Error getting JWT token for verify");
       throw error;
     }
   },
