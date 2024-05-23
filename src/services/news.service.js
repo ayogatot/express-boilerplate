@@ -31,7 +31,7 @@ newsService.add = async (news) => {
 
 newsService.getAll = async (query) => {
   logger().info(`get all news, with query = ${objectToLogStr(query)}`);
-  const pageSize = query.size || 12;
+  const pageSize = Number(query.size) || 12;
   const start = query.pages ? query.pages * pageSize - pageSize : null;
   const { rows: newss, count: totalItems } = await News.findAndCountAll({
     limit: pageSize,
