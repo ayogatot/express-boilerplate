@@ -31,7 +31,7 @@ newsService.add = async (news) => {
 
 newsService.getAll = async (query) => {
   logger().info(`get all news, with query = ${objectToLogStr(query)}`);
-  const pageSize = 12;
+  const pageSize = query.size || 12;
   const start = query.pages ? query.pages * pageSize - pageSize : null;
   const { rows: newss, count: totalItems } = await News.findAndCountAll({
     limit: pageSize,
@@ -58,6 +58,16 @@ newsService.getById = async (newsId) => {
 
   logger().info("sucessfully get all newss");
   return newsDetail;
+};
+
+newsService.deleteById = async (newsId) => {
+  logger().info(`delete news request, data = ${objectToLogStr(newsId)}`)
+  if(!newsId) {
+    throw new ValidationError("news_id is required")
+  }
+  const result = await News.destroy({ where: { news_id: newsId } });
+  logger().info(`news: ${newsId} deleted`);
+  return result;
 };
 
 newsService.update = async ( newsId, news) => {

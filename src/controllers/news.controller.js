@@ -94,4 +94,18 @@ newsController.getById = async (req, res, next) => {
   }
 }
 
+newsController.deleteById = async (req, res, next) => {
+  try {
+    logger().info(`delete news request, data = ${objectToLogStr(req.params)}`)
+    if(!req.params.news_id) {
+      throw new ValidationError("news_id is required")
+    }
+    const result = await newsService.deleteById(req.params.news_id);
+    responseUtil.success(res, result);
+  } catch (e) {
+    logger().error(`news delete failed, error = ${e}`);
+    next(e)
+  }
+}
+
 export default newsController;
