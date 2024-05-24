@@ -48,4 +48,34 @@ applicantController.getAll = async (req, res, next) => {
   }
 };
 
+applicantController.getById = async (req, res, next) => {
+  try {
+    logger().info(`get applicant by id, id = ${req.params.applicant_id}`);
+
+    if (!req.params.applicant_id) {
+      throw new ValidationError("applicant_id is required");
+    }
+
+    const applicant = await applicantService.getById(req.params.applicant_id);
+    responseUtil.success(res, applicant);
+  } catch (e) {
+    logger().error(`applicant login failed, error = ${e}`);
+    next(e);
+  }
+};
+
+applicantController.deleteById = async (req, res, next) => {
+  try {
+    logger().info(`delete applicant request, data = ${objectToLogStr(req.params)}`)
+    if(!req.params.applicant_id) {
+      throw new ValidationError("applicant_id is required")
+    }
+    const result = await applicantService.deleteById(req.params.applicant_id);
+    responseUtil.success(res, result);
+  } catch (e) {
+    logger().error(`applicant delete failed, error = ${e}`);
+    next(e)
+  }
+}
+
 export default applicantController;

@@ -34,4 +34,30 @@ applicantService.getAll = async (query) => {
   return pagedData(applicants, totalItems, totalPage, Number(query.pages || 1), totalItems > start + pageSize);
 };
 
+applicantService.getById = async (id) => {
+  logger().info(`get applicant by id, id = ${id}`);
+  const applicant = await Applicants.findOne({ where: { id: id } });
+
+  if (!applicant) {
+    throw new NotFoundError(`applicant not found, id = ${id}`);
+  }
+
+  logger().info(`get applicant by id, applicant = ${objectToLogStr(applicant)}`);
+  return applicant;
+};
+
+applicantService.deleteById = async (id) => {
+  logger().info(`delete applicant, id = ${id}`);
+  const existingApplicant = await Applicants.findOne({ where: { id: id } });
+
+  if (!existingApplicant) {
+    throw new NotFoundError(`applicant not found, id = ${id}`);
+  }
+
+  await existingApplicant.destroy();
+  logger().info(`applicant deleted, id = ${id}`);
+
+  return existingApplicant;
+};
+
 export default applicantService;

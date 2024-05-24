@@ -37,7 +37,7 @@ newsletterService.deleteById = async (newsletterId) => {
     throw new NotFoundError(`Newsletter with newsletter_id: ${newsletterId} is not found`);
   }
 
-  await Newsletters.destroy({ where: { newsletter_id: newsletterId } });
+  await existingNewsletter.destroy();
   logger().info(`newsletter deleted, newsletter = ${newsletterId}`);
 
   return newsletterId;

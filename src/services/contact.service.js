@@ -31,7 +31,7 @@ contactService.getAll = async (query) => {
   return pagedData(contacts, totalItems, totalPage, Number(query.pages || 1), totalItems > start + pageSize);
 };
 
-contactService.delete = async (contactId) => {
+contactService.deleteById = async (contactId) => {
   logger().info(`delete contact, id = ${contactId}`);
   const existingContact = await Contacts.findOne({ where: { contact_id: contactId } });
 

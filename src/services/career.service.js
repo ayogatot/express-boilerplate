@@ -53,7 +53,7 @@ careerService.update = async (careerId, career) => {
   return existingCareer;
 };
 
-careerService.delete = async (careerId) => {
+careerService.deleteById = async (careerId) => {
   logger().info(`delete career, id = ${careerId}`);
   const existingCareer = await Careers.findOne({ where: { career_id: careerId } });
 
