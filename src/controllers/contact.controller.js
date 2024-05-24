@@ -34,4 +34,18 @@ contactController.getAll = async (req, res, next) => {
   }
 };
 
+contactController.deleteById = async (req, res, next) => {
+  try {
+    logger().info(`delete contact request, data = ${objectToLogStr(req.params)}`)
+    if(!req.params.contact_id) {
+      throw new ValidationError("contact_id is required")
+    }
+    const result = await contactService.deleteById(req.params.contact_id);
+    responseUtil.success(res, result);
+  } catch (e) {
+    logger().error(`contact delete failed, error = ${e}`);
+    next(e)
+  }
+}
+
 export default contactController;

@@ -31,4 +31,18 @@ contactService.getAll = async (query) => {
   return pagedData(contacts, totalItems, totalPage, Number(query.pages || 1), totalItems > start + pageSize);
 };
 
+contactService.delete = async (contactId) => {
+  logger().info(`delete contact, id = ${contactId}`);
+  const existingContact = await Contacts.findOne({ where: { contact_id: contactId } });
+
+  if (!existingContact) {
+    throw new NotFoundError(`contact not found, id = ${contactId}`);
+  }
+
+  await existingContact.destroy();
+  logger().info(`contact deleted, id = ${contactId}`);
+
+  return existingContact;
+};
+
 export default contactService;
