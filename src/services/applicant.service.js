@@ -48,7 +48,7 @@ applicantService.getById = async (id) => {
 
 applicantService.deleteById = async (id) => {
   logger().info(`delete applicant, id = ${id}`);
-  const existingApplicant = await Applicants.findOne({ where: { id: id } });
+  const existingApplicant = await Applicants.findOne({ where: { applicant_id: id } });
 
   if (!existingApplicant) {
     throw new NotFoundError(`applicant not found, id = ${id}`);

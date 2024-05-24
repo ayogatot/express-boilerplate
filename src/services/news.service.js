@@ -61,7 +61,7 @@ newsService.getById = async (newsId) => {
 };
 
 newsService.deleteById = async (newsId) => {
-  logger().info(`delete news request, data = ${objectToLogStr(newsId)}`)
+  logger().info(`delete news request, data = ${newsId}`)
   if(!newsId) {
     throw new ValidationError("news_id is required")
   }
