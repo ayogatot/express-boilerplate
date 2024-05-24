@@ -53,4 +53,18 @@ careerService.update = async (careerId, career) => {
   return existingCareer;
 };
 
+careerService.delete = async (careerId) => {
+  logger().info(`delete career, id = ${careerId}`);
+  const existingCareer = await Careers.findOne({ where: { career_id: careerId } });
+
+  if (!existingCareer) {
+    throw new NotFoundError(`career not found, id = ${careerId}`);
+  }
+
+  await existingCareer.destroy();
+  logger().info(`career deleted, id = ${careerId}`);
+
+  return existingCareer;
+};
+
 export default careerService;

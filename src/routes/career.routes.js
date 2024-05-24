@@ -8,5 +8,6 @@ const careerRoutes = Router();
 careerRoutes.post("/", JwtService.jwtGetToken, careerController.add);
 careerRoutes.get("/", careerController.getAll);
 careerRoutes.put("/:career_id", JwtService.jwtGetToken, careerController.update);
+careerRoutes.delete("/:career_id", JwtService.jwtGetToken, careerController.deleteById);
 
 export { careerRoutes };

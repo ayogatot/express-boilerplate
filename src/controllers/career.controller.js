@@ -50,4 +50,18 @@ careerController.update = async (req, res, next) => {
   }
 };
 
+careerController.deleteById = async (req, res, next) => {
+  try {
+    logger().info(`delete career request, data = ${objectToLogStr(req.params)}`)
+    if(!req.params.career_id) {
+      throw new ValidationError("career_id is required")
+    }
+    const result = await careerService.deleteById(req.params.career_id);
+    responseUtil.success(res, result);
+  } catch (e) {
+    logger().error(`career delete failed, error = ${e}`);
+    next(e)
+  }
+}
+
 export default careerController;
