@@ -49,15 +49,13 @@ newsController.update = async (req, res, next) => {
         throw new InternalServerError(err);
       }
 
-      if(!req.file) throw new ValidationError("image is required");
-
       const validationResult = newsValidator.addOrUpdate.validate(req.body);
       if (validationResult.error) {
         throw new ValidationError(validationResult.error.message);
       }
 
       const news = validationResult.value;
-      news.file = req.file;
+      if (req.file) news.file = req.file;
 
       const result = await newsService.update(req.params.news_id, news);
       responseUtil.success(res, result);
