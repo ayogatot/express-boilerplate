@@ -11,6 +11,10 @@ export default function getPagesQuery(query) {
       conditions.parent_page_id = query.parent_page_id;
     }
 
+    if (query.only_page === 'true') {
+      conditions.sequence = 1;
+    }
+
     conditions.parent_page_id = null;
   
     return conditions;
