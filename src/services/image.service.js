@@ -8,6 +8,7 @@ import Images from "../models/Images";
 import getImagesQuery from "../utils/query/image.query";
 import pagedData from "../utils/PagedData";
 import { NotFoundError } from "../utils/ApiError";
+import { v4 } from "uuid";
 
 const imageService = {};
 
@@ -22,14 +23,27 @@ imageService.getAll = async (query) => {
       {
         model: Pages,
         as: "page_detail",
-        attributes: [ "page_id", "parent_page_id", "page", "title", "subtitle", "description", "sequence" ],
+        attributes: [
+          "page_id",
+          "parent_page_id",
+          "page",
+          "title",
+          "subtitle",
+          "description",
+          "sequence",
+        ],
       },
     ],
     limit: pageSize,
     offset: start,
   });
   const totalPage = Math.ceil(totalItems / pageSize);
-  return pagedData( images, totalItems, totalPage, Number(query.pages || 1), totalItems > start + pageSize
+  return pagedData(
+    images,
+    totalItems,
+    totalPage,
+    Number(query.pages || 1),
+    totalItems > start + pageSize
   );
 };
 
@@ -46,11 +60,34 @@ imageService.update = async (imageId, image) => {
   await sharp(image.buffer)
     .png({ quality: 70 })
     .toFile(path.join(__dirname, "../uploads", existingImage.filename));
-  
-  existingImage.updated_at = new Date().getTime();
-  await existingImage.save()
 
-  return existingImage
+  existingImage.updated_at = new Date().getTime();
+  await existingImage.save();
+
+  return existingImage;
+};
+
+imageService.create = (pageId, image) => {
+  logger().info(`create image, page_id: ${pageId}`);
+
+  const existingPage = Pages.findOne({
+    where: {
+      page_id: pageId,
+    },
+  });
+
+  if (!existingPage) throw new NotFoundError("page not found");
+
+  const filename = v4() + ".png";
+  sharp(image.buffer)
+    .png({ quality: 70 })
+    .toFile(path.join(__dirname, "../uploads", filename));
+  const newImage = Images.create({
+    page_id: pageId,
+    filename,
+    created_at: new Date().getTime(),
+  });
+  return newImage;
 };
 
 export default imageService;
