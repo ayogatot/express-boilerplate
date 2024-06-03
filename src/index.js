@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import { logger } from "express-glass";
-import modules from "./modules";
+import sequelizeModule from "./modules/sequelize.module";
 
 import path from "path";
 import cors from "cors";
@@ -33,20 +33,18 @@ server.use("/api/v1/newsletters", routes.newsletterRoutes);
 
 server.use(globalErrorHandler);
 
-server.listen(5001);
-logger().info("[EXPRESS] Express initialized");
-
 // FOR VERCEL REQUIREMENTS
-(async () => {
+server.listen(5001, async () => {
   try {
-    await modules[1].init();
+    await sequelizeModule.init();
 
     logger().info("🚀 Server initialized successfully");
   } catch (error) {
     logger().error(error);
     process.exit(1);
   }
-})();
+});
+logger().info("[EXPRESS] Express initialized");
 
 module.exports = server;
 
