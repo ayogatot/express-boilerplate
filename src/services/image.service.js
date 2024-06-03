@@ -9,6 +9,7 @@ import getImagesQuery from "../utils/query/image.query";
 import pagedData from "../utils/PagedData";
 import { NotFoundError } from "../utils/ApiError";
 import { v4 } from "uuid";
+import { unlink } from "fs/promises";
 
 const imageService = {};
 
@@ -88,6 +89,22 @@ imageService.create = (pageId, image) => {
     created_at: new Date().getTime(),
   });
   return newImage;
+};
+
+imageService.delete = async (imageId) => {
+  logger().info(`delete image, image_id: ${imageId}`);
+  const existingImage = await Images.findOne({
+    where: {
+      image_id: imageId,
+    },
+  });
+  if (!existingImage) throw new NotFoundError("image not found");
+  await existingImage.destroy();
+
+  const filename = existingImage.filename;
+  await unlink(path.join(__dirname, "../uploads", filename));
+  
+  return `deleted image, image_id: ${imageId}`;
 };
 
 export default imageService;

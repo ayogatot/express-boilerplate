@@ -66,4 +66,18 @@ imageController.create = async (req, res, next) => {
   });
 };
 
+imageController.delete = async (req, res, next) => {
+  try {
+    logger().info(`delete image, image_id = ${req.params.image_id}`);
+    if(!req.params.image_id) {
+      throw new ValidationError("image_id is required")
+    }
+    const result = await imageService.delete(req.params.image_id);
+    responseUtil.success(res, result);
+  } catch (error) {
+    logger().info(`delete image failed, error = ${error}`);
+    next(error);
+  }
+};
+
 export default imageController;
