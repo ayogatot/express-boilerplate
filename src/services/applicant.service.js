@@ -1,8 +1,7 @@
 import { logger } from "express-glass";
 import { objectToLogStr } from "../utils/ObjectToLog";
-import Applicants from "../models/Applicants";
+import { Applicants, Careers } from "../models/";
 import pagedData from "../utils/PagedData";
-import Careers from "../models/Careers";
 
 const applicantService = {};
 

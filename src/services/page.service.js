@@ -5,9 +5,7 @@ import { logger } from "express-glass";
 import { objectToLogStr } from "../utils/ObjectToLog";
 import { BadRequestError } from "../utils/ApiError";
 
-import Pages from "../models/Pages";
-import Images from "../models/Images";
-import { connection } from "../modules/sequelize.module";
+import { connection, Pages, Images } from "../models";
 import getPagesQuery from "../utils/query/page.query";
 
 const pageService = {};

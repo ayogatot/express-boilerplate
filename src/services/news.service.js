@@ -3,9 +3,8 @@ import sharp from "sharp";
 import path from "path";
 import { logger } from "express-glass";
 import { objectToLogStr } from "../utils/ObjectToLog";
-import News from "../models/News";
+import { News } from "../models/";
 import pagedData from "../utils/PagedData";
-import Careers from "../models/Careers";
 import { NotFoundError } from "../utils/ApiError";
 
 const newsService = {};

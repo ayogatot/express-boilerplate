@@ -3,8 +3,7 @@ import sharp from "sharp";
 import { logger } from "express-glass";
 import { objectToLogStr } from "../utils/ObjectToLog";
 
-import Pages from "../models/Pages";
-import Images from "../models/Images";
+import { Pages, Images } from "../models/";
 import getImagesQuery from "../utils/query/image.query";
 import pagedData from "../utils/PagedData";
 import { NotFoundError } from "../utils/ApiError";

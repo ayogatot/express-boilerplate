@@ -1,7 +1,7 @@
 import { logger } from "express-glass";
 import { objectToLogStr } from "../utils/ObjectToLog";
 import { DuplicateRecordError, NotFoundError, UnauthorizedError } from "../utils/ApiError";
-import Users from "../models/Users";
+import { Users } from "../models/";
 import JwtService from "../modules/jwt.module";
 
 const userService = {};

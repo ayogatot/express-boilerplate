@@ -1,6 +1,6 @@
 import { logger } from "express-glass";
 import { objectToLogStr } from "../utils/ObjectToLog";
-import Careers from "../models/Careers";
+import { Careers } from "../models/";
 import pagedData from "../utils/PagedData";
 import { NotFoundError } from "../utils/ApiError";
 import getCareerQuery from "../utils/query/career.query";

@@ -1,6 +1,6 @@
 import { logger } from "express-glass";
 import { objectToLogStr } from "../utils/ObjectToLog";
-import Newsletters from "../models/Newsletters";
+import { Newsletters } from "../models/";
 import pagedData from "../utils/PagedData";
 
 const newsletterService = {};

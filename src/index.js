@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import { logger } from "express-glass";
-import sequelizeModule from "./modules/sequelize.module";
+// import { connection } from "./models";
 
 import path from "path";
 import cors from "cors";
@@ -36,7 +36,7 @@ server.use(globalErrorHandler);
 // FOR VERCEL REQUIREMENTS
 server.listen(5001, async () => {
   try {
-    await sequelizeModule.init();
+    // await connection.authenticate();
 
     logger().info("🚀 Server initialized successfully");
   } catch (error) {
