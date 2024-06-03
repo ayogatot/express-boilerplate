@@ -11,14 +11,6 @@ import compression from "compression";
 import routes from "./routes";
 import globalErrorHandler from "./middlewares/errorHandler.middleware";
 
-
-// FOR VERCEL REQUIREMENTS
-const initSequelize = async () => {
-  await modules[1].init();
-}
-
-initSequelize()
-
 const server = express();
 server.use(compression());
 server.use(express.json());
@@ -43,6 +35,18 @@ server.use(globalErrorHandler);
 
 server.listen(5001);
 logger().info("[EXPRESS] Express initialized");
+
+// FOR VERCEL REQUIREMENTS
+(async () => {
+  try {
+    await modules[1].init();
+
+    logger().info("🚀 Server initialized successfully");
+  } catch (error) {
+    logger().error(error);
+    process.exit(1);
+  }
+})();
 
 module.exports = server;
 
